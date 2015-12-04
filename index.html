@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>InstaGroups</title>
+  <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script src="moment.js"></script>
+  <script src="script.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="styles.css" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row" id="navbar">
+      <div class="col-md-2 col-lg-3"></div>
+      <div class="col-md-8 col-lg-6 sidesquish">
+        <div class="pull-left">
+          <span id="navbartitle">GROUPS</span>
+        </div>
+        <div class="pull-right">
+          <div class="dropdown pull-right">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              Navigation
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li class="navlink" id="homelink"><a href="#">Home</a></li>
+              <li class="navlink" id="groupslink"><a href="#">My Groups</a></li>
+              <li class="navlink" id="searchlink"><a href="#">Search Instagram</a></li>
+              <li class="navlink" id="browselink"><a href="#">Browse Popular</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-3"></div>
+    </div>
+    
+    <div class="row" id="maincontainer">
+      <div class="col-md-2 col-lg-3"></div>
+      <div class="col-md-8 col-lg-6 sidesquish">   
+       
+          <!-- HOME -->
+          <div id="viewProfile" class="container-fluid">
+            <div class="row">
+              <div class="col-md-3 col-xs-3 text-left">
+                <img class="media-object img-circle" id="viewUserImg">              
+              </div>
+              <div class="col-md-9 col-xs-9">
+                <h2 class="media-heading" id="viewUsername"></h2>
+                <span id="viewFullName">Jean Mariano</span><br/><br/>
+                <a id="" class="username" style="display:none;"></a>
+                <button id="viewProfileAdd" class="btn btn-xs btn-default add" data-toggle="modal" data-target="#addToGroup">GROUP MEMBERSHIP</button>
+                <a id="viewUrl" target="_blank" class="btn btn-xs btn-default" src="">OPEN IN INSTAGRAM</a>
+              </div>
+            </div>
+            <div class="row">
+              <br/><br/>
+              <h4>Recent Media</h4>
+              <span id="loadingRecentMedia"><i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i> Loading...</span>
+              <div id="viewRecentMedia">
+              </div>
+            </div>
+          </div>
+
+          <!-- MY GROUPS -->
+          <div id="mygroups">
+            <div class="pull-left">
+              <h3>My Groups</h3>
+            </div>
+            <div class="pull-right">            
+              <button class="btn btn-default btn-sm" id="createNewGroup" data-toggle="modal" data-target="#newGroup">Create New</button>
+            </div>
+            <br/><br/>
+            <div class="list-group" id="groupList">
+              <a href="#" class="list-group-item clearfix">
+                Cras justo odio
+                <span class="btn btn-xs glyphicon glyphicon-trash pull-right" aria-hidden="true"></span>
+                <span class="btn btn-xs glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>
+              </a>
+              <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+              <a href="#" class="list-group-item">Morbi leo risus</a>
+              <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+              <a href="#" class="list-group-item">Vestibulum at eros</a>
+            </div>
+          </div>
+
+          <!-- SEARCH -->
+          <div id="search">
+            <h3>Search Instagram</h3>
+            <div id="contentrow">            
+              <div class="inner-addon left-addon" id="searchbarcont">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                <input type="text" id="searchbar" class="form-control" placeholder="Enter a keyword"/>     
+              </div>
+              <div id="searchtypecont">
+                <select class="form-control" id="searchtype">
+                  <option>user</option>
+                  <option>media by tags</option>               
+                </select>
+              </div>
+              <div id="searchbuttoncont">
+                <button type="button" id="searchbutton" class="btn btn-success">Go</button>
+              </div>
+            </div>
+
+            <h4 id="searchresultsheader"></h4>
+            <div id="searchresults">
+            </div>
+          </div>         
+
+          <div id="browse">                
+            <h3>Browse popular media <button class="btn btn-xs btn-default" onclick="getPopular()">REFRESH</button></h3>
+            <span id="loadingPopular"><i class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></i> Loading...</span>
+            <div id="mediapopular">
+            </div>
+          </div>
+      </div>
+      <div class="col-md-2 col-lg-3"></div>
+
+      <div class="modal fade" id="editgroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button class="pull-right btn btn-default btn-xs" id="deleteGroup">DELETE</button>
+              <button class="pull-right btn btn-default btn-xs" id="editGroupName">EDIT</button>
+
+              <h4 class="modal-title" id="editGroupHeader"></h4>
+              <form id="editGroupNameForm">
+                <input type="text" id="editGroupNameField" required>
+                <input class="btn btn-xs btn-primary" type="submit" value="Edit">
+              </form>
+            </div>
+            <div class="modal-body">              
+              <div id="edituserlist" class="list-group">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="editsave">Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="newGroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h3 class="modal-title" id="myModalLabel">Create New Group</h3>
+            </div>
+            <div class="modal-body">
+              <form id="newGroupSubmit">
+              <input type="text" class="form-control" id="newGroupField" placeholder="Group name" required>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <input type="submit" class="btn btn-primary" value="Create">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="addToGroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <!-- <button class="pull-right btn btn-default btn-xs">Add User to Group</button> -->
+              <h4 class="modal-title" id="addToGroupHeader"><span id="addToGroupUser"></span>'s Groups</h4>
+            </div>
+            <div class="modal-body">  
+              <!-- <small>Choose groups to add or remove.</small> -->
+              <div id="addToGroupList" class="list-group">  
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="addToGroupDone" data-dismiss="modal">Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="mediaView" role="dialog" aria-labelledby="mediaViewLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div id="mediaViewmedia">                                    
+              </div>  
+              <div id="mediaViewtext">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="mediaViewLabel">
+                    <img src="" id="mediaViewuserimg" class="img-circle" />
+                    <a href="#" id="mediaViewusername">
+                    </a>
+                    <b id="" style="display:none;"></b>                    
+                    <a class="btn btn-xs btn-default" id="mediaViewPermalink" target="_blank">Permalink</a>  <br/>
+                  </h4>
+                </div>
+                <div class="modal-body">
+                  <span class="small" id="mediaViewTimestamp"></span><br/><br/>
+                  <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                  <span id="mediaViewlikes"></span> likes<br/> <br/> 
+                  <div id="mediaViewcaption">
+                  </div>
+
+                </div>                 
+              </div>       
+          </div>
+        </div>
+      </div>       
+    </div>
+  </div>
+</body>
+</html>
