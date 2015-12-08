@@ -1,3 +1,5 @@
+Access @ http://jeanmariano.github.io/instagroups
+
 a. Jean Mariano
    jam2332@barnard.edu
    UI Design Fall 2015
